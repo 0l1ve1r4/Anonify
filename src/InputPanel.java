@@ -18,16 +18,22 @@ public class InputPanel extends JPanel {
         sendButton.setBackground(Constants.BLUE);
         sendButton.setForeground(Color.WHITE);
 
-        sendButton.addActionListener(e -> {
-            String message = messageField.getText().trim();
-            if (!message.isEmpty()) {
-                chatPanel.addMessage(message, "YOU");
-                chatPanel.addMessage("Reply to: " + message, "BOT");
-                messageField.setText("");
-            }
-        });
+        // Action for the Send button
+        sendButton.addActionListener(e -> sendMessage(chatPanel, messageField));
+
+        // Action for pressing Enter in the message field
+        messageField.addActionListener(e -> sendMessage(chatPanel, messageField));
 
         add(messageField, BorderLayout.CENTER);
         add(sendButton, BorderLayout.EAST);
+    }
+
+    private void sendMessage(ChatPanel chatPanel, JTextField messageField) {
+        String message = messageField.getText().trim();
+        if (!message.isEmpty()) {
+            chatPanel.addMessage(message, "YOU");
+            chatPanel.addMessage("Reply to: " + message, "BOT");
+            messageField.setText("");
+        }
     }
 }

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 public class ChatPanel {
     private final JPanel chatPanel;
@@ -24,10 +25,22 @@ public class ChatPanel {
     }
 
     public void addMessage(String message, String sender) {
+        // Create message panel
         JPanel messageContainer = MessageUtils.createMessagePanel(message, sender);
+
+        // Prevent stretching by aligning components to the left
+        messageContainer.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Ensure consistent width
+        messageContainer.setMaximumSize(new Dimension(chatPanel.getWidth(), Integer.MAX_VALUE));
         chatPanel.add(messageContainer);
+
+        // Update the display
         chatPanel.revalidate();
         chatPanel.repaint();
+
+        // Auto-scroll to the bottom
+        SwingUtilities.invokeLater(() -> scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum()));
     }
 
     public void showHelp() {

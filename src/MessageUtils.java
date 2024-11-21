@@ -4,23 +4,32 @@ import java.awt.*;
 
 public class MessageUtils {
     public static JPanel createMessagePanel(String message, String sender) {
-        JPanel containerPanel = new JPanel(new BorderLayout());
+        // Container panel for alignment
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
         containerPanel.setBackground(Constants.DARK_GRAY);
         containerPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
 
-        JPanel messagePanel = new JPanel(new BorderLayout());
+        // Inner message panel
+        JPanel messagePanel = new JPanel();
+        messagePanel.setLayout(new BorderLayout());
         messagePanel.setBackground(sender.equals("YOU") ? Constants.SENDER_COLOR : Constants.RECIPIENT_COLOR);
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        messagePanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE)); // Fix width
 
+        // Message label with wrapping HTML
         JLabel messageLabel = new JLabel("<html><body style='width: 200px;'>" + formatMessage(message) + "</body></html>");
         messageLabel.setForeground(Color.WHITE);
         messageLabel.setFont(new Font("SansSerif", Font.BOLD, 14));
-        messagePanel.add(messageLabel);
+        messagePanel.add(messageLabel, BorderLayout.CENTER);
 
+        // Add message panel to container with alignment
         if (sender.equals("YOU")) {
-            containerPanel.add(messagePanel, BorderLayout.EAST);
+            containerPanel.add(Box.createHorizontalGlue()); // Push to the right
+            containerPanel.add(messagePanel);
         } else {
-            containerPanel.add(messagePanel, BorderLayout.WEST);
+            containerPanel.add(messagePanel);
+            containerPanel.add(Box.createHorizontalGlue()); // Push to the left
         }
 
         return containerPanel;
