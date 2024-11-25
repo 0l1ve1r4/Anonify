@@ -8,7 +8,7 @@ public class TorService {
     private static final String TOR_HOSTNAME_PATH = "/var/lib/tor/hidden_service/hostname";
     private static final String TOR_PROXY_HOST = "127.0.0.1";
     private static final int TOR_PROXY_PORT = 9050;
-    private static final int SERVER_PORT = 12345;
+    private static final int SERVER_PORT = 9001;
 
     public String getOnionAddress() throws IOException {
         File hostnameFile = new File(TOR_HOSTNAME_PATH);
@@ -22,6 +22,7 @@ public class TorService {
             if (onionAddress == null || onionAddress.trim().isEmpty()) {
                 throw new IOException("The hostname file is empty. Check the Tor configuration.");
             }
+            System.out.println(onionAddress);
             return onionAddress;
         }
     }
