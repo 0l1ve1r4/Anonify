@@ -26,49 +26,43 @@ public class TorService {
         }
     }
 
-    public void startChatServer() throws IOException {
+    public void startChatServer(ChatPanel panel) throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
-            System.out.println("Server started. Waiting for connections...");
+            panel.addMessage("Server started, waiting connection.", "BOT");
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Client connected!");
+            panel.addMessage("Client connected!", "BOT");
 
             try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                  PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
                 String inputLine;
                 while ((inputLine = in.readLine()) != null) {
-                    System.out.println("Client: " + inputLine);
+                    panel.addMessage("Client: " + inputLine, "BOT");
                     if ("bye".equalsIgnoreCase(inputLine)) break;
-                    out.println("Server: " + inputLine);
+                    panel.addMessage("Server: " + inputLine, "USER");
                 }
             }
         }
     }
 
-    public void connectToServer(String onionAddress) throws IOException {
+    public void connectToServer(String onionAddress, ChatPanel panel) throws IOException {
         Properties systemProperties = System.getProperties();
         systemProperties.setProperty("socksProxyHost", TOR_PROXY_HOST);
         systemProperties.setProperty("socksProxyPort", String.valueOf(TOR_PROXY_PORT));
 
-        try (Socket socket = new Socket(onionAddress, SERVER_PORT);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
-
-            JOptionPane.showMessageDialog(null, "Connected to the server. Check the console for communication.", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            new Thread(() -> {
-                try (BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
-                    String userInput;
-                    System.out.println("Connected to server. Type your messages:");
-                    while ((userInput = stdIn.readLine()) != null) {
-                        out.println(userInput);
-                        System.out.println("Server: " + in.readLine());
-                        if ("bye".equalsIgnoreCase(userInput)) break;
-                    }
-                } catch (IOException e) {
-                    System.err.println("Error during communication: " + e.getMessage());
+            try (Socket socket = new Socket(onionAddress, SERVER_PORT)) {
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+    
+                BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+                String userInput;
+    
+                System.out.println("Conectado ao servidor. Digite suas mensagens:");
+                while ((userInput = stdIn.readLine()) != null) {
+                    panel.addMessage(userInput, "USER");
+                    panel.addMessage("Servidor: " + in.readLine(), "BOT");
+                    if ("bye".equalsIgnoreCase(userInput)) break;
                 }
-            }).start();
-        }
+            }
     }
 }

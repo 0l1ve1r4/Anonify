@@ -6,21 +6,22 @@ public class MainFrame extends JFrame {
     private final TorService torService = new TorService();
 
     public MainFrame() {
-        setTitle("MainFrame");
+        setTitle("AnoNify");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(400, 600);
+        setSize(600, 600);
         setLayout(new BorderLayout());
 
         // Add components
-        add(createLogoPanel(), BorderLayout.NORTH);
         ChatPanel chatPanel = new ChatPanel();
+
+        add(createLogoPanel(chatPanel), BorderLayout.NORTH);
         add(chatPanel.getScrollPane(), BorderLayout.CENTER);
         add(new InputPanel(chatPanel), BorderLayout.SOUTH);
 
         setVisible(true);
     }
 
-    private JPanel createLogoPanel() {
+    private JPanel createLogoPanel(ChatPanel panel) {
         JPanel logoPanel = new JPanel();
         logoPanel.setBackground(Color.DARK_GRAY);
         logoPanel.setPreferredSize(new Dimension(getWidth(), 50));
@@ -34,14 +35,14 @@ public class MainFrame extends JFrame {
         iconsPanel.setBackground(Color.DARK_GRAY);
         iconsPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 10, 5));
         JButton settingsButton = createIconButton("res/settings-icon-white.png", "Settings");
-        settingsButton.addActionListener(e -> openSettingsWindow());
+        settingsButton.addActionListener(e -> openSettingsWindow(panel));
         iconsPanel.add(settingsButton);
 
         logoPanel.add(iconsPanel, BorderLayout.EAST);
         return logoPanel;
     }
 
-    private void openSettingsWindow() {
+    private void openSettingsWindow(ChatPanel panel) {
         JFrame settingsFrame = new JFrame("Settings");
         settingsFrame.setSize(300, 200);
         settingsFrame.setLayout(new GridLayout(3, 1));
@@ -50,16 +51,16 @@ public class MainFrame extends JFrame {
         configureOnionButton.addActionListener(e -> {
             try {
                 String onionAddress = torService.getOnionAddress();
-                JOptionPane.showMessageDialog(this, "Server Onion Address:\n" + onionAddress, "Onion Address", JOptionPane.INFORMATION_MESSAGE);
+                panel.addMessage("Server Onion Address:\n" + onionAddress, "BOT");
                 new Thread(() -> {
                     try {
-                        torService.startChatServer();
+                        torService.startChatServer(panel);
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(this, "Failed to start the server: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        panel.addMessage("Failed to start the server: " + ex.getMessage(), "BOT");
                     }
                 }).start();
             } catch (IOException ex) {
-                JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                panel.addMessage(ex.getMessage(), "BOT");
             }
         });
 
@@ -67,14 +68,15 @@ public class MainFrame extends JFrame {
         connectOnionButton.addActionListener(e -> {
             String onionAddress = JOptionPane.showInputDialog(this, "Enter Onion Server Address:", "Connect to Onion Server", JOptionPane.PLAIN_MESSAGE);
             if (onionAddress != null && !onionAddress.trim().isEmpty()) {
-                try {
-                    torService.connectToServer(onionAddress);
+                new Thread(() -> {
+                    try {
+                        torService.connectToServer(onionAddress, panel);
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(this, "Failed to connect to the server: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    panel.addMessage("Failed to connect to the server: " + ex.getMessage(), "BOT");
                 }
+                }).start();
             }
         });
-
         settingsFrame.add(configureOnionButton);
         settingsFrame.add(connectOnionButton);
         settingsFrame.setVisible(true);
