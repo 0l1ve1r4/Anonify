@@ -1,3 +1,5 @@
+package com.anonify.ui;
+
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.*;
 import java.awt.*;

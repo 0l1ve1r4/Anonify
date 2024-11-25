@@ -1,6 +1,10 @@
+package com.anonify.ui;
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import com.anonify.services.TorService;
 
 public class MainFrame extends JFrame {
     private final TorService torService = new TorService();

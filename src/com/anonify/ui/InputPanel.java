@@ -1,5 +1,8 @@
+package com.anonify.ui;
+
 import javax.swing.*;
 import java.awt.*;
+import com.anonify.utils.Constants;
 
 public class InputPanel extends JPanel {
     public InputPanel(ChatPanel chatPanel) {

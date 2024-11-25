@@ -1,5 +1,10 @@
+package com.anonify.ui;
+
 import java.awt.*;
 import javax.swing.*;
+import com.anonify.utils.Constants;
+import com.anonify.utils.MessageUtils;
+
 
 public class ChatPanel {
     private final JPanel chatPanel;

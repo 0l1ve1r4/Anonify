@@ -1,8 +1,11 @@
+package com.anonify.services;
+
 import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
+import com.anonify.ui.ChatPanel;
 
 public class TorService {
     private static final String TOR_HOSTNAME_PATH = "/var/lib/tor/hidden_service/hostname";

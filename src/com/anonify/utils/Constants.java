@@ -1,3 +1,4 @@
+package com.anonify.utils;
 import java.awt.*;
 
 public class Constants {
