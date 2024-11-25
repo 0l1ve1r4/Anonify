@@ -50,11 +50,11 @@ public class MainFrame extends JFrame {
         JButton configureOnionButton = new JButton("Start a Onion Server");
         configureOnionButton.addActionListener(e -> {
             try {
-                String onionAddress = torService.getOnionAddress();
+                String onionAddress = torService.getOnionAddress(chatPanel);
                 chatPanel.addMessage("Your Server Onion Address: " + onionAddress, "BOT");
                 new Thread(() -> {
                     try {
-                        torService.startChatServer();
+                        torService.startChatServer(chatPanel);
                     } catch (IOException ex) {
                         chatPanel.addMessage("Failed to start the server: " + ex.getMessage(), "BOT");
                     }
@@ -69,7 +69,7 @@ public class MainFrame extends JFrame {
             String onionAddress = JOptionPane.showInputDialog(this, "Enter Onion Server Address:", "Connect to Onion Server", JOptionPane.PLAIN_MESSAGE);
             if (onionAddress != null && !onionAddress.trim().isEmpty()) {
                 try {
-                    torService.connectToServer(onionAddress);
+                    torService.connectToServer(onionAddress, chatPanel);
                 } catch (IOException ex) {
                     chatPanel.addMessage("Failed to connect to the server: " + ex.getMessage(), "BOT");
                 }

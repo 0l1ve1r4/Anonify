@@ -1,53 +1,51 @@
-import javax.swing.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
+
+import javax.swing.SwingUtilities;
 
 public class TorService {
     private static final String TOR_HOSTNAME_PATH = "/var/lib/tor/hidden_service/hostname";
     private static final String TOR_PROXY_HOST = "127.0.0.1";
     private static final int TOR_PROXY_PORT = 9050;
     private static final int SERVER_PORT = 12345;
-    private ChatPanel chatPanel = new ChatPanel();
 
-
-    public String getOnionAddress() throws IOException {
+    public String getOnionAddress(ChatPanel panel) throws IOException {
         File hostnameFile = new File(TOR_HOSTNAME_PATH);
 
         if (!hostnameFile.exists()) {
-            chatPanel.addMessage("The hostname file was not found. Is the Tor service running and configured?", "BOT");
+            panel.addMessage("The hostname file was not found. Is the Tor service running and configured?", "BOT");
         }
 
         try (BufferedReader reader = new BufferedReader(new FileReader(hostnameFile))) {
             String onionAddress = reader.readLine();
             if (onionAddress == null || onionAddress.trim().isEmpty()) {
-                chatPanel.addMessage("The hostname file is empty. Check the Tor configuration.", "BOT");
+                panel.addMessage("The hostname file is empty. Check the Tor configuration.", "BOT");
             }
             return onionAddress;
         }
     }
 
-    public void startChatServer() throws IOException {
+    public void startChatServer(ChatPanel panel) throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
-            chatPanel.addMessage("Server started. Waiting for connections...", "BOT");
+            panel.addMessage("Server Started. Awaiting connection...", "BOT");
             Socket clientSocket = serverSocket.accept();
-            chatPanel.addMessage("Client connected!", "BOT");
+            System.out.println("Cliente conectado!");
 
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-                String inputLine;
-                while ((inputLine = in.readLine()) != null) {
-                    chatPanel.addMessage(inputLine, "BOT"); // TODO: Change bot to anon(another user)
-                    if ("bye".equalsIgnoreCase(inputLine)) break;
-                    out.println("Server: " + inputLine);
-                }
+            String inputLine;
+            while ((inputLine = in.readLine()) != null) {
+                panel.addMessage(inputLine, "BOT");
+                if ("bye".equalsIgnoreCase(inputLine)) break;
+                panel.addMessage(inputLine, "BOT");
             }
         }
     }
-
-    public void connectToServer(String onionAddress) throws IOException {
+    
+    public void connectToServer(String onionAddress, ChatPanel panel) throws IOException {
         Properties systemProperties = System.getProperties();
         systemProperties.setProperty("socksProxyHost", TOR_PROXY_HOST);
         systemProperties.setProperty("socksProxyPort", String.valueOf(TOR_PROXY_PORT));
@@ -59,14 +57,14 @@ public class TorService {
             new Thread(() -> {
                 try (BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))) {
                     String userInput;
-                    chatPanel.addMessage("Connected to server. Type your messages.", "BOT");
+                    panel.addMessage("Connected to server. Type your messages.", "BOT");
                     while ((userInput = stdIn.readLine()) != null) {
                         out.println(userInput);
-                        chatPanel.addMessage(in.readLine(), "BOT");
+                        panel.addMessage(in.readLine(), "BOT");
                         if ("bye".equalsIgnoreCase(userInput)) break;
                     }
                 } catch (IOException e) {
-                    chatPanel.addMessage("Error during communication: " + e.getMessage(), "BOT");
+                    panel.addMessage("Error during communication: " + e.getMessage(), "BOT");
                 }
             }).start();
         }
