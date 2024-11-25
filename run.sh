@@ -15,4 +15,4 @@ if [ $? -ne 0 ]; then
 fi
 
 echo "Running the Java program..."
-java -cp "$OUT_DIR" "$MAIN_CLASS"
+sudo java -cp "$OUT_DIR" "$MAIN_CLASS"
