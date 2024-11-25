@@ -32,7 +32,6 @@ public class InputPanel extends JPanel {
         String message = messageField.getText().trim();
         if (!message.isEmpty()) {
             chatPanel.addMessage(message, "YOU");
-            chatPanel.addMessage("Reply to: " + message, "BOT");
             messageField.setText("");
         }
     }

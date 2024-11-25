@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class Constants {
-    public static final int MAX_MESSAGE_STRING = 100;
+    public static final int MAX_MESSAGE_STRING = 200;
     public static final String JFRAME_TITLE = "No-Connected";
 
     public static final Color DARK_GRAY = new Color(52, 53, 65);

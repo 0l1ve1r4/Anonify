@@ -3,8 +3,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
 
-import javax.swing.SwingUtilities;
-
 public class TorService {
     private static final String TOR_HOSTNAME_PATH = "/var/lib/tor/hidden_service/hostname";
     private static final String TOR_PROXY_HOST = "127.0.0.1";
@@ -27,24 +25,30 @@ public class TorService {
         }
     }
 
-    public void startChatServer(ChatPanel panel) throws IOException {
+    public void startChatServer(ChatPanel chatPanel) throws IOException {
+        chatPanel.addMessage("Trying to start the server at port:" + SERVER_PORT, "BOT");
         try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT)) {
-            panel.addMessage("Server Started. Awaiting connection...", "BOT");
+            chatPanel.addMessage("Server started. Waiting for connections...", "BOT");
             Socket clientSocket = serverSocket.accept();
-            System.out.println("Cliente conectado!");
+            chatPanel.addMessage("Client connected!", "BOT");
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+                 PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                panel.addMessage(inputLine, "BOT");
-                if ("bye".equalsIgnoreCase(inputLine)) break;
-                panel.addMessage(inputLine, "BOT");
+                String inputLine;
+                while ((inputLine = in.readLine()) != null) {
+                    // Printing received message on CLI and sending back to client
+                    System.out.println("Received from client: " + inputLine); // Print received message on CLI
+                    chatPanel.addMessage(inputLine, "USER"); // Display it as a message from the USER (client)
+
+                    out.println("Server: " + inputLine); // Echo the message back to the client
+
+                    if ("bye".equalsIgnoreCase(inputLine)) break;
+                }
             }
         }
     }
-    
+
     public void connectToServer(String onionAddress, ChatPanel panel) throws IOException {
         Properties systemProperties = System.getProperties();
         systemProperties.setProperty("socksProxyHost", TOR_PROXY_HOST);
@@ -60,7 +64,13 @@ public class TorService {
                     panel.addMessage("Connected to server. Type your messages.", "BOT");
                     while ((userInput = stdIn.readLine()) != null) {
                         out.println(userInput);
-                        panel.addMessage(in.readLine(), "BOT");
+                        panel.addMessage(userInput, "USER"); // Print message sent by the user
+                        System.out.println("Sent to server: " + userInput); // Print message sent on CLI
+
+                        String serverResponse = in.readLine();
+                        panel.addMessage(serverResponse, "SERVER"); // Print server response
+                        System.out.println("Received from server: " + serverResponse); // Print received message on CLI
+
                         if ("bye".equalsIgnoreCase(userInput)) break;
                     }
                 } catch (IOException e) {
