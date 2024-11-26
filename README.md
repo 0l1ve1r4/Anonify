@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="res/logo-no-bg-centralized.png" alt="AnoNify" style="width: 50%;">
+  <img src="src/res/logo-no-bg-centralized.png" alt="AnoNify" style="width: 50%;">
 
   <p align="center">
     <strong>Open-source onion-secured one-to-one communication platform.</strong>    
@@ -10,7 +10,7 @@
   ![Commit activity](https://img.shields.io/github/commit-activity/m/iyksh/AnoNify)
   ![GitHub top language](https://img.shields.io/github/languages/top/iyksh/AnoNify?logo=java&label=)
   [![GitHub license](https://img.shields.io/github/license/iyksh/AnoNify)](https://github.com/iyksh/AnoNify/LICENSE)
-  [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](./res/README_PTBR.md)
+  [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](./src/res/README_PTBR.md)
 
 </div>
 
@@ -48,7 +48,7 @@ A secure and anonymous chat platform designed for private one-to-one communicati
    ```
 2. Configure Tor:
    - Ensure `tor` is running and accessible through `ControlPort` (default: 9051) and `SOCKSPort` (default: 9050).
-   - Optional: Use the `torrc` file provided in the `/res/config` directory for quick setup.
+   - Optional: Use the `torrc` file provided in the `/src/res/config` directory for quick setup.
 
 3. Build and Run:
    ```bash
