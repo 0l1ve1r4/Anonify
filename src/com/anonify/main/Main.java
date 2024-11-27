@@ -7,6 +7,6 @@ public class Main {
     public static void main(String[] args) {
         Services services = new Services();
         UI userInterface = new UI(services);
-        userInterface.startUI("Anonify", 980, 800);
+        userInterface.startUI("Anonify", 580, 800);
     }
 }

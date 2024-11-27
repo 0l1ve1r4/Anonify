@@ -5,7 +5,7 @@ import javax.swing.*;
 import com.anonify.utils.Constants;
 import com.anonify.utils.MessageUtils;
 
-class ChatPanel {
+public class ChatPanel {
     private final JPanel chatPanel;
     private final JScrollPane scrollPane;
     private int messageIndex = 0;
@@ -37,7 +37,7 @@ class ChatPanel {
         return scrollPane;
     }
 
-    void addMessage(String message, String sender) {
+    public void addMessage(String message, String sender) {
         JPanel messageContainer = MessageUtils.createMessagePanel(message, sender);
 
         GridBagConstraints gbc = new GridBagConstraints();

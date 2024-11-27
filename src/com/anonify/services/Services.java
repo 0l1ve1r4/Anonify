@@ -1,5 +1,7 @@
 package com.anonify.services;
 
+import com.anonify.ui.ChatPanel;
+
 public class Services {
     /**
      * Starts the Onion server on the specified port.
@@ -7,8 +9,8 @@ public class Services {
      *
      * @param serverPort The port on which the server should listen.
      */
-    public void startOnionServer(int serverPort) {
-        TorServerService.main();
+    public void startOnionServer(ChatPanel chatPanel) {
+        TorServerService.main(chatPanel);
     }
 
     /**
@@ -16,8 +18,8 @@ public class Services {
      * This method wraps the TorClientService method for connecting to the Onion server.
      * @param onionAddress The address of the Onion server.
      */
-    public void connectToOnionServer(String onionAddress) {
-        TorClientService.main(onionAddress);
+    public void connectToOnionServer(String onionAddress, ChatPanel chatPanel) {
+        TorClientService.main(onionAddress, chatPanel);
     }
 
     /**

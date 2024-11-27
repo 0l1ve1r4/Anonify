@@ -6,6 +6,7 @@ import com.anonify.services.Services;
 
 class MainFrame extends JFrame {
     private Services torService;
+    private ChatPanel chatPanel;
 
     MainFrame(String title, int width, int height, Services torServices, ChatPanel chatPanel) {        
         setTitle(title);
@@ -14,6 +15,7 @@ class MainFrame extends JFrame {
         setLayout(new BorderLayout());
 
         this.torService = torServices;
+        this.chatPanel = chatPanel;
 
         add(createLogoPanel(chatPanel), BorderLayout.NORTH);
         add(chatPanel.getScrollPane(), BorderLayout.CENTER);
@@ -66,7 +68,7 @@ class MainFrame extends JFrame {
             try {    
                 new Thread(() -> {
                     try {
-                        torService.startOnionServer(9001);
+                        torService.startOnionServer(chatPanel);
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() ->
                             panel.addMessage("Failed to start the server: " + ex.getMessage(), "BOT")
@@ -90,7 +92,7 @@ class MainFrame extends JFrame {
             if (onionAddress != null && !onionAddress.trim().isEmpty()) {
                 new Thread(() -> {
                     try {
-                        torService.connectToOnionServer(onionAddress);
+                        torService.connectToOnionServer(onionAddress, this.chatPanel);
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() ->
                             panel.addMessage("Failed to connect to the server: " + ex.getMessage(), "BOT")
