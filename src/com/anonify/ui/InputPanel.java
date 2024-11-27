@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import com.anonify.utils.Constants;
 
-public class InputPanel extends JPanel {
-    public InputPanel(ChatPanel chatPanel) {
+class InputPanel extends JPanel {
+    InputPanel(ChatPanel chatPanel) {
         setLayout(new BorderLayout());
         setBackground(Constants.LIGHTER_GRAY);
 
@@ -21,11 +21,8 @@ public class InputPanel extends JPanel {
         sendButton.setBackground(Constants.BLUE);
         sendButton.setForeground(Color.WHITE);
 
-        // Action for the Send button
-        sendButton.addActionListener(e -> sendMessage(chatPanel, messageField));
-
-        // Action for pressing Enter in the message field
-        messageField.addActionListener(e -> sendMessage(chatPanel, messageField));
+        sendButton.addActionListener(_ -> sendMessage(chatPanel, messageField));
+        messageField.addActionListener(_ -> sendMessage(chatPanel, messageField));
 
         add(messageField, BorderLayout.CENTER);
         add(sendButton, BorderLayout.EAST);

@@ -5,7 +5,6 @@ import javax.swing.*;
 import com.anonify.utils.Constants;
 import com.anonify.utils.MessageUtils;
 
-
 public class ChatPanel {
     private final JPanel chatPanel;
     private final JScrollPane scrollPane;
@@ -19,34 +18,28 @@ public class ChatPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBorder(null);
 
-        // Customize scroll bar
         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
         verticalBar.setBackground(Constants.LIGHTER_GRAY);
         verticalBar.setUI(new CustomScrollBarUI());
 
-        // Add listener to adjust size after resizing
         scrollPane.addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
                 adjustMessageWidths();
-                // Ensure the chat is scrolled to the bottom when resized
                 SwingUtilities.invokeLater(() -> scrollToBottom());
             }
         });
 
-        // Set initial scroll to the bottom after everything is rendered
         SwingUtilities.invokeLater(() -> scrollToBottom());
     }
 
-    public JScrollPane getScrollPane() {
+    JScrollPane getScrollPane() {
         return scrollPane;
     }
 
     public void addMessage(String message, String sender) {
-        // Create message panel
         JPanel messageContainer = MessageUtils.createMessagePanel(message, sender);
 
-        // Configure layout constraints for the message panel
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = messageIndex++;
@@ -55,18 +48,15 @@ public class ChatPanel {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.WEST;
 
-        // Add the message container to the chat panel
         chatPanel.add(messageContainer, gbc);
 
-        // Update the display
         chatPanel.revalidate();
         chatPanel.repaint();
 
-        // Use a second SwingUtilities.invokeLater to force the scroll to occur after revalidation
         SwingUtilities.invokeLater(() -> SwingUtilities.invokeLater(() -> scrollToBottom()));
     }
 
-    private void adjustMessageWidths() {
+    void adjustMessageWidths() {
         int newWidth = scrollPane.getViewport().getWidth() - 20;
         for (Component component : chatPanel.getComponents()) {
             if (component instanceof JPanel panel) {
@@ -79,12 +69,12 @@ public class ChatPanel {
         chatPanel.repaint();
     }
 
-    private void scrollToBottom() {
+    void scrollToBottom() {
         JScrollBar verticalScrollBar = scrollPane.getVerticalScrollBar();
         verticalScrollBar.setValue(verticalScrollBar.getMaximum());
     }
 
-    public void showHelp() {
+    void showHelp() {
         addMessage("What is AnoNify?", "YOU");
         addMessage("AnoNify is an open-source, onion-secured platform for one-to-one communication.", "BOT");
         addMessage("How do I use it?", "YOU");

@@ -1,11 +1,11 @@
 package com.anonify.main;
-
-import javax.swing.SwingUtilities;
-import com.anonify.ui.MainFrame;
-
+import com.anonify.ui.UI;
+import com.anonify.ui.ChatPanel;
 
 public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(MainFrame::new);
+        ChatPanel chatPanel = new ChatPanel();
+        UI userInterface = new UI(chatPanel);
+        userInterface.startUI("Anonify", 980, 800);
     }
 }

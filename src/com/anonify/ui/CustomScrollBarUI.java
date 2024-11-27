@@ -4,7 +4,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.*;
 import java.awt.*;
 
-public class CustomScrollBarUI extends BasicScrollBarUI {
+class CustomScrollBarUI extends BasicScrollBarUI {
     @Override
     protected JButton createDecreaseButton(int orientation) {
         return createZeroButton();
