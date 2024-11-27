@@ -2,19 +2,18 @@ package com.anonify.ui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import com.anonify.services.TorService;
+import com.anonify.services.Services;
 
 class MainFrame extends JFrame {
-    private TorService torService;
+    private Services torService;
 
-    MainFrame(String title, int width, int height, ChatPanel chatPanel) {
+    MainFrame(String title, int width, int height, Services torServices, ChatPanel chatPanel) {        
         setTitle(title);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(width, height);
         setLayout(new BorderLayout());
 
-        torService = new TorService(chatPanel);
+        this.torService = torServices;
 
         add(createLogoPanel(chatPanel), BorderLayout.NORTH);
         add(chatPanel.getScrollPane(), BorderLayout.CENTER);
@@ -22,8 +21,6 @@ class MainFrame extends JFrame {
 
         setVisible(true);
     }
-
-
 
     private JPanel createLogoPanel(ChatPanel panel) {
         JPanel logoPanel = new JPanel();
@@ -66,20 +63,17 @@ class MainFrame extends JFrame {
     
         JButton configureOnionButton = new JButton("Configure Onion Server");
         configureOnionButton.addActionListener(_ -> {
-            try {
-                String onionAddress = torService.getOnionAddress();
-                panel.addMessage("Server Onion Address:\n" + onionAddress, "BOT");
-    
+            try {    
                 new Thread(() -> {
                     try {
-                        torService.startChatServer();
+                        torService.startOnionServer(9001);
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() ->
                             panel.addMessage("Failed to start the server: " + ex.getMessage(), "BOT")
                         );
                     }
                 }).start();
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 panel.addMessage("Failed to retrieve Onion Address: " + ex.getMessage(), "BOT");
             }
         });
@@ -96,7 +90,7 @@ class MainFrame extends JFrame {
             if (onionAddress != null && !onionAddress.trim().isEmpty()) {
                 new Thread(() -> {
                     try {
-                        torService.connectToServer(onionAddress);
+                        torService.connectToOnionServer(onionAddress);
                     } catch (Exception ex) {
                         SwingUtilities.invokeLater(() ->
                             panel.addMessage("Failed to connect to the server: " + ex.getMessage(), "BOT")

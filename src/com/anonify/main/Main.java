@@ -1,11 +1,12 @@
 package com.anonify.main;
+
 import com.anonify.ui.UI;
-import com.anonify.ui.ChatPanel;
+import com.anonify.services.Services;;
 
 public class Main {
     public static void main(String[] args) {
-        ChatPanel chatPanel = new ChatPanel();
-        UI userInterface = new UI(chatPanel);
+        Services services = new Services();
+        UI userInterface = new UI(services);
         userInterface.startUI("Anonify", 980, 800);
     }
 }

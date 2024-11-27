@@ -1,5 +1,6 @@
 package com.anonify.utils;
-import java.awt.*;
+
+import java.awt.Color;;
 
 public class Constants {
     public static final int MAX_MESSAGE_STRING = 200;

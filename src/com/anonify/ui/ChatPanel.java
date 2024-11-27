@@ -5,12 +5,12 @@ import javax.swing.*;
 import com.anonify.utils.Constants;
 import com.anonify.utils.MessageUtils;
 
-public class ChatPanel {
+class ChatPanel {
     private final JPanel chatPanel;
     private final JScrollPane scrollPane;
     private int messageIndex = 0;
 
-    public ChatPanel() {
+    ChatPanel() {
         chatPanel = new JPanel(new GridBagLayout());
         chatPanel.setBackground(Constants.DARK_GRAY);
 
@@ -37,7 +37,7 @@ public class ChatPanel {
         return scrollPane;
     }
 
-    public void addMessage(String message, String sender) {
+    void addMessage(String message, String sender) {
         JPanel messageContainer = MessageUtils.createMessagePanel(message, sender);
 
         GridBagConstraints gbc = new GridBagConstraints();
