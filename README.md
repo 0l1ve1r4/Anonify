@@ -21,6 +21,14 @@ A secure and anonymous chat platform designed for private one-to-one communicati
 - **📲 Lightweight Interface**: Simple and user-friendly interface for seamless communication.
 - **🚀 Open-source**: Fully transparent and community-driven development.
 
+<strong>This project was inspired by [dontTrust](https://github.com/Alvorada9999/dont_trust).</strong>
+
+<div align="center">
+
+![](./src/res/ExampleBanner.png)
+
+</div>
+
 ## 📚 Documentation Index
 
 ### **Backlog and Project Description**
@@ -60,4 +68,4 @@ A secure and anonymous chat platform designed for private one-to-one communicati
 
 ## 🌟 Acknowledgements
 
-- This project was inspired by [dontTrust](https://github.com/Alvorada9999/dont_trust).
+
