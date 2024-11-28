@@ -58,8 +58,8 @@ class MainFrame extends JFrame {
         JButton settingsButton = createIconButton("src/res/settings-icon-white.png", "Settings");
         JButton helpButton = createIconButton("src/res/help-icon-white.png", "Help");
         
-        settingsButton.addActionListener(_ -> openSettingsTab());
-        helpButton.addActionListener(_ -> panel.showHelp());
+        settingsButton.addActionListener(e -> openSettingsTab());
+        helpButton.addActionListener(e -> panel.showHelp());
         
         iconsPanel.add(settingsButton);
         iconsPanel.add(helpButton);
@@ -73,10 +73,10 @@ class MainFrame extends JFrame {
         settingsPanel.setBackground(Constants.LIGHTER_GRAY);
 
         JButton configureOnionButton = new JButton("Configure Onion Server");
-        configureOnionButton.addActionListener(_ -> openConfigureOnionTab());
+        configureOnionButton.addActionListener(e -> openConfigureOnionTab());
 
         JButton connectOnionButton = new JButton("Connect to an Onion Server");
-        connectOnionButton.addActionListener(_ -> openConnectOnionTab());
+        connectOnionButton.addActionListener(e -> openConnectOnionTab());
 
         settingsPanel.add(configureOnionButton);
         settingsPanel.add(connectOnionButton);
@@ -100,7 +100,7 @@ class MainFrame extends JFrame {
         hiddenServiceField.setText("/var/lib/tor/hidden_service/hostname");
 
         JButton startButton = new JButton("Start Server");
-        startButton.addActionListener(_ -> {
+        startButton.addActionListener(e -> {
             String hostFilePath = hiddenServiceField.getText();
             String portStr = portField.getText();
 
@@ -151,7 +151,7 @@ class MainFrame extends JFrame {
         serverPortField.setText("12345");
 
         JButton connectButton = new JButton("Connect");
-        connectButton.addActionListener(_ -> {
+        connectButton.addActionListener(e -> {
             String onionAddress = onionAddressField.getText();
             String proxyHost = proxyHostField.getText();
             String proxyPort = proxyPortField.getText();

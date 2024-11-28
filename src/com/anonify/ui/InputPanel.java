@@ -27,8 +27,8 @@ class InputPanel extends JPanel {
         sendButton.setBackground(Constants.BLUE);
         sendButton.setForeground(Color.WHITE);
 
-        sendButton.addActionListener(_ -> sendMessage(chatPanel, messageField));
-        messageField.addActionListener(_ -> sendMessage(chatPanel, messageField));
+        sendButton.addActionListener(e -> sendMessage(chatPanel, messageField));
+        messageField.addActionListener(e -> sendMessage(chatPanel, messageField));
 
         add(messageField, BorderLayout.CENTER);
         add(sendButton, BorderLayout.EAST);
