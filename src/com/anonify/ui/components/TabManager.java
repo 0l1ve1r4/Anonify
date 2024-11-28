@@ -1,6 +1,8 @@
 package com.anonify.ui.components;
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import java.awt.*;
 import com.anonify.services.Services;
 import com.anonify.ui.panels.ConnectOnionPanel;
 import com.anonify.ui.panels.ConfigureOnionPanel;
@@ -34,6 +36,7 @@ public class TabManager {
 
     private JTabbedPane createTabbedPane() {
         JTabbedPane tabs = new JTabbedPane();
+        tabs.setUI(new CustomTabbedPaneUI());
         tabs.setBackground(Constants.DARK_GRAY);
         tabs.setForeground(Constants.LIGHT_GRAY);
         tabs.addTab("Chat", chatPanel.getScrollPane());
@@ -51,4 +54,25 @@ public class TabManager {
     public void openConnectOnionTab() {
         addOrSwitchTab("Connect to Onion Server", new ConnectOnionPanel(torService, chatPanel));
     }
+
+    private static class CustomTabbedPaneUI extends BasicTabbedPaneUI {
+        private final Color selectedTabColor = Constants.LIGHTER_GRAY;
+        private final Color tabLineColor = Constants.DARK_GRAY;
+    
+        @Override
+        protected void paintTabBackground(Graphics g, int tabPlacement, int tabIndex, int x, int y, int w, int h, boolean isSelected) {
+            g.setColor(isSelected ? selectedTabColor : tabPane.getBackground());
+            g.fillRect(x, y, w, h);
+        }
+    
+        @Override
+        protected void paintContentBorder(Graphics g, int tabPlacement, int selectedIndex) {
+            g.setColor(tabLineColor); 
+            int tabHeight = tabPane.getBounds().height;
+            int lineYPosition = tabHeight - 2; 
+            
+            g.drawLine(0, lineYPosition, tabPane.getWidth(), lineYPosition);
+        }
+    }
+    
 }

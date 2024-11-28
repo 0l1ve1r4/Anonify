@@ -24,8 +24,8 @@ public class InputPanel extends JPanel {
 
         JButton sendButton = new JButton("Send");
         sendButton.setFont(new Font("SansSerif", Font.BOLD, 14));
-        sendButton.setBackground(Constants.BLUE);
-        sendButton.setForeground(Color.WHITE);
+        sendButton.setBackground(Constants.DARK_PURPLE);
+        sendButton.setForeground(Constants.WHITE);
 
         sendButton.addActionListener(e -> sendMessage(chatPanel, messageField));
         messageField.addActionListener(e -> sendMessage(chatPanel, messageField));

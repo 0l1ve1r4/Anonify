@@ -15,7 +15,7 @@ public class MessageUtils {
         // Inner message panel
         JPanel messagePanel = new JPanel();
         messagePanel.setLayout(new BorderLayout());
-        messagePanel.setBackground(sender.equals("YOU") ? Constants.SENDER_COLOR : Constants.RECIPIENT_COLOR);
+        messagePanel.setBackground(sender.equals("YOU") ? Constants.DARK_PURPLE : Constants.PURPLE);
         messagePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         messagePanel.setMaximumSize(new Dimension(300, Integer.MAX_VALUE)); // Fix width
 
