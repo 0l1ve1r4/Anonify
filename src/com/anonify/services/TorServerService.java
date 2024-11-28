@@ -5,9 +5,12 @@ import java.net.*;
 
 import com.anonify.ui.ChatPanel;
 
+import java.util.concurrent.CopyOnWriteArrayList;
+
 class TorServerService {
     private static final int PORT = 12345;
     private static final String HIDDEN_SERVICE_HOSTNAME_FILE = "/var/lib/tor/hidden_service/hostname";
+    private static final CopyOnWriteArrayList<PrintWriter> clients = new CopyOnWriteArrayList<>();
 
     static void main(ChatPanel chatPanel) {
         try {
@@ -29,9 +32,13 @@ class TorServerService {
             try (ServerSocket serverSocket = new ServerSocket(PORT)) {
                 System.out.println("Server is listening on port: " + PORT);
                 chatPanel.addMessage("Server is listening on port: " + PORT, "BOT");
+
                 while (true) {
                     Socket clientSocket = serverSocket.accept();
-                    new Thread(new ClientHandler(clientSocket, chatPanel)).start();
+                    PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+                    clients.add(out);
+
+                    new Thread(new ClientHandler(clientSocket, chatPanel, out)).start();
                 }
             }
         } catch (IOException e) {
@@ -48,31 +55,36 @@ class TorServerService {
             return null;
         }
     }
-}
 
-class ClientHandler implements Runnable {
-    private final Socket clientSocket;
-    private final ChatPanel chatPanel;
+    private static class ClientHandler implements Runnable {
+        private final Socket clientSocket;
+        private final ChatPanel chatPanel;
+        private final PrintWriter clientOut;
 
-    ClientHandler(Socket socket, ChatPanel chatPanel) {
-        this.clientSocket = socket;
-        this.chatPanel = chatPanel;
-    }
+        ClientHandler(Socket socket, ChatPanel chatPanel, PrintWriter clientOut) {
+            this.clientSocket = socket;
+            this.chatPanel = chatPanel;
+            this.clientOut = clientOut;
+        }
 
-    @Override
-    public void run() {
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-             PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
+        @Override
+        public void run() {
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()))) {
+                String message;
+                while ((message = in.readLine()) != null) {
+                    System.out.println("Client: " + message);
+                    chatPanel.addMessage("Client: " + message, "BOT");
 
-            String message;
-            while ((message = in.readLine()) != null) {
-                System.out.println("Client: " + message);
-                out.println("Server: " + message); // Echo message
-
-                chatPanel.addMessage("Client: " + message, "BOT");
+                    // Broadcast the message to all clients
+                    for (PrintWriter out : clients) {
+                        out.println(message);
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                clients.remove(clientOut);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
 }

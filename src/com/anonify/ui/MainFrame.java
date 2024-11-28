@@ -19,7 +19,7 @@ class MainFrame extends JFrame {
 
         add(createLogoPanel(chatPanel), BorderLayout.NORTH);
         add(chatPanel.getScrollPane(), BorderLayout.CENTER);
-        add(new InputPanel(chatPanel), BorderLayout.SOUTH);
+        add(new InputPanel(chatPanel, torService), BorderLayout.SOUTH);
 
         setVisible(true);
     }

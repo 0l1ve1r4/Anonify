@@ -22,6 +22,12 @@ public class Services {
         TorClientService.main(onionAddress, chatPanel);
     }
 
+
+    public void sendMessageToServer(String message){
+        TorClientService.sendMessage(message, "Anon");
+    }
+
+
     /**
      Stops the Onion server by calling the appropriate method in TorServerService. */
     public void stopOnionServer() {

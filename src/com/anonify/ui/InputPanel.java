@@ -2,12 +2,18 @@ package com.anonify.ui;
 
 import javax.swing.*;
 import java.awt.*;
+
+import com.anonify.services.Services;
 import com.anonify.utils.Constants;
 
 class InputPanel extends JPanel {
-    InputPanel(ChatPanel chatPanel) {
+    private static Services torSendMessage;
+    
+    InputPanel(ChatPanel chatPanel, Services torService) {
         setLayout(new BorderLayout());
         setBackground(Constants.LIGHTER_GRAY);
+
+        torSendMessage = torService;
 
         JTextField messageField = new JTextField();
         messageField.setFont(new Font("SansSerif", Font.PLAIN, 14));
@@ -33,6 +39,9 @@ class InputPanel extends JPanel {
         if (!message.isEmpty()) {
             chatPanel.addMessage(message, "YOU");
             messageField.setText("");
+
+            torSendMessage.sendMessageToServer(message);
+
         }
     }
 }
