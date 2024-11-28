@@ -1,7 +1,8 @@
-package com.anonify.ui;
+package com.anonify.ui.components;
 
 import java.awt.*;
 import javax.swing.*;
+
 import com.anonify.utils.Constants;
 import com.anonify.utils.MessageUtils;
 
@@ -10,7 +11,7 @@ public class ChatPanel {
     private final JScrollPane scrollPane;
     private int messageIndex = 0;
 
-    ChatPanel() {
+    public ChatPanel() {
         chatPanel = new JPanel(new GridBagLayout());
         
         chatPanel.setBackground(Constants.DARK_GRAY);

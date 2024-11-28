@@ -3,10 +3,9 @@ package com.anonify.services;
 import java.io.*;
 import java.net.*;
 import java.time.Instant;
-
-import com.anonify.ui.ChatPanel;
-
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.anonify.ui.components.ChatPanel;
 
 class TorServerService {
     private static int PORT; // = 12345;

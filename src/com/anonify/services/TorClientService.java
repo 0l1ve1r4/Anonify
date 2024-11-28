@@ -3,7 +3,7 @@ package com.anonify.services;
 import java.io.*;
 import java.net.*;
 
-import com.anonify.ui.ChatPanel;
+import com.anonify.ui.components.ChatPanel;
 
 class TorClientService {
     private static String TOR_PROXY_HOST; // = "127.0.0.1";

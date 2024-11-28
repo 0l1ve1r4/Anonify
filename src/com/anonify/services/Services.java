@@ -1,6 +1,6 @@
 package com.anonify.services;
 
-import com.anonify.ui.ChatPanel;
+import com.anonify.ui.components.ChatPanel;
 
 public class Services {
     /**

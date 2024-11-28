@@ -1,4 +1,4 @@
-package com.anonify.ui;
+package com.anonify.ui.components;
 
 import java.awt.*;
 import javax.swing.*;

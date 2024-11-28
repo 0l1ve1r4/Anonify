@@ -1,4 +1,4 @@
-package com.anonify.ui;
+package com.anonify.ui.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,10 +6,10 @@ import java.awt.*;
 import com.anonify.services.Services;
 import com.anonify.utils.Constants;
 
-class InputPanel extends JPanel {
+public class InputPanel extends JPanel {
     private static Services torSendMessage;
     
-    InputPanel(ChatPanel chatPanel, Services torService) {
+    public InputPanel(ChatPanel chatPanel, Services torService) {
         setLayout(new BorderLayout());
         setBackground(Constants.LIGHTER_GRAY);
 

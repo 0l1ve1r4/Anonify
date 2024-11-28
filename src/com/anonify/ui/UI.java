@@ -3,6 +3,7 @@ package com.anonify.ui;
 import javax.swing.SwingUtilities;
 
 import com.anonify.services.Services;
+import com.anonify.ui.components.ChatPanel;
 
 public class UI {
     private final Services services;
