@@ -2,17 +2,21 @@ package com.anonify.services;
 
 import java.io.*;
 import java.net.*;
+import java.time.Instant;
 
 import com.anonify.ui.ChatPanel;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
 class TorServerService {
-    private static final int PORT = 12345;
-    private static final String HIDDEN_SERVICE_HOSTNAME_FILE = "/var/lib/tor/hidden_service/hostname";
+    private static int PORT; // = 12345;
+    private static String HIDDEN_SERVICE_HOSTNAME_FILE; // = "/var/lib/tor/hidden_service/hostname";
     private static final CopyOnWriteArrayList<PrintWriter> clients = new CopyOnWriteArrayList<>();
 
-    static void main(ChatPanel chatPanel) {
+    static void main(String hostFilepath, int port, ChatPanel chatPanel) {
+        HIDDEN_SERVICE_HOSTNAME_FILE = hostFilepath;
+        PORT = port;
+        
         try {
             String onionAddress = readOnionAddress(HIDDEN_SERVICE_HOSTNAME_FILE, chatPanel);
             if (onionAddress == null) {
@@ -73,11 +77,15 @@ class TorServerService {
                 String message;
                 while ((message = in.readLine()) != null) {
                     System.out.println("Client: " + message);
-                    chatPanel.addMessage("Client: " + message, "BOT");
+                    Instant now = Instant.now();
 
-                    // Broadcast the message to all clients
+                    chatPanel.addMessage("["+ now.toString() + "]: " + message, "BOT");
+        
+                    // Broadcast the message to all clients except the sender
                     for (PrintWriter out : clients) {
-                        out.println(message);
+                        if (out != clientOut) {
+                            out.println(message);
+                        }
                     }
                 }
             } catch (IOException e) {
@@ -86,5 +94,6 @@ class TorServerService {
                 clients.remove(clientOut);
             }
         }
+        
     }
 }

@@ -12,7 +12,9 @@ public class ChatPanel {
 
     ChatPanel() {
         chatPanel = new JPanel(new GridBagLayout());
+        
         chatPanel.setBackground(Constants.DARK_GRAY);
+        chatPanel.setForeground(Constants.DARK_GRAY);
 
         scrollPane = new JScrollPane(chatPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

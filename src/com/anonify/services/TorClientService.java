@@ -6,14 +6,18 @@ import java.net.*;
 import com.anonify.ui.ChatPanel;
 
 class TorClientService {
-    private static final String TOR_PROXY_HOST = "127.0.0.1";
-    private static final int TOR_PROXY_PORT = 9050;
-    private static final int SERVER_PORT = 12345;
+    private static String TOR_PROXY_HOST; // = "127.0.0.1";
+    private static int TOR_PROXY_PORT; // = 9050;
+    private static int SERVER_PORT;  // = 12345;
 
     // Global private variable for PrintWriter
     private static PrintWriter out;
 
-    static void main(String serverOnion, ChatPanel chatPanel) {
+    static void main(String serverOnion, String torProxyHost, int torProxyPort, int serverPort, ChatPanel chatPanel) {
+        TOR_PROXY_HOST = torProxyHost;
+        TOR_PROXY_PORT = torProxyPort;
+        SERVER_PORT = serverPort;
+        
         try {
             if (serverOnion == null || serverOnion.isBlank()) {
                 System.out.println("Invalid .onion address. Exiting.");

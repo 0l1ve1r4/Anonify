@@ -9,8 +9,13 @@ public class Services {
      *
      * @param serverPort The port on which the server should listen.
      */
-    public void startOnionServer(ChatPanel chatPanel) {
-        TorServerService.main(chatPanel);
+    public void startOnionServer(String hostFilepath, String port, ChatPanel chatPanel) {
+        try {
+            int serverPort = Integer.parseInt(port);
+            TorServerService.main(hostFilepath, serverPort, chatPanel);
+        } catch (NumberFormatException e) {
+            chatPanel.addMessage("Invalid port number: " + e.getMessage(), "BOT");
+        }
     }
 
     /**
@@ -18,9 +23,17 @@ public class Services {
      * This method wraps the TorClientService method for connecting to the Onion server.
      * @param onionAddress The address of the Onion server.
      */
-    public void connectToOnionServer(String onionAddress, ChatPanel chatPanel) {
-        TorClientService.main(onionAddress, chatPanel);
+    public void connectToOnionServer(String onionAddress, String proxyHost, String proxyPort, String serverPort, ChatPanel chatPanel) {
+        try {
+            int proxyPortInt = Integer.parseInt(proxyPort);
+            int serverPortInt = Integer.parseInt(serverPort);
+    
+            TorClientService.main(onionAddress, proxyHost, proxyPortInt, serverPortInt, chatPanel);
+        } catch (NumberFormatException e) {
+            chatPanel.addMessage("Invalid port number: " + e.getMessage(), "BOT");
+        }
     }
+    
 
 
     public void sendMessageToServer(String message){
