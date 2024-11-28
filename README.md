@@ -7,11 +7,9 @@
 
   <hr>
 
-  ![Commit activity](https://img.shields.io/github/commit-activity/m/iyksh/AnoNify)
-  ![GitHub top language](https://img.shields.io/github/languages/top/iyksh/AnoNify?logo=java&label=)
-  [![GitHub license](https://img.shields.io/github/license/iyksh/AnoNify)](https://github.com/iyksh/AnoNify/LICENSE)
-  [![pt-br](https://img.shields.io/badge/lang-pt--br-green.svg)](./src/res/README_PTBR.md)
-
+  ![Commit activity](https://img.shields.io/github/commit-activity/m/0l1ve1r4/Anonify)
+  ![GitHub top language](https://img.shields.io/github/languages/top/0l1ve1r4/Anonify?logo=java&label=)
+  [![GitHub license](https://img.shields.io/github/license/0l1ve1r4/Anonify)](https://github.com/0l1ve1r4/Anonify/LICENSE)
 </div>
 
 A secure and anonymous chat platform designed for private one-to-one communication. with a focus on privacy, AnoNify routes all communications via the Tor network.
@@ -56,16 +54,13 @@ A secure and anonymous chat platform designed for private one-to-one communicati
    ```
 2. Configure Tor:
    - Ensure `tor` is running and accessible through `ControlPort` (default: 9051) and `SOCKSPort` (default: 9050).
-   - Optional: Use the `torrc` file provided in the `/src/res/config` directory for quick setup.
+   - Optional: Use the `tor.sh` file provided in the `/scripts/` directory for quick setup.
 
 3. Build and Run:
    ```bash
-   ./gradlew build
-   java -jar build/libs/AnoNify.jar
+   ./run.sh
    ```
 
 4. Access the interface and start chatting anonymously.
-
-## 🌟 Acknowledgements
 
 
