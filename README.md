@@ -9,7 +9,9 @@
 
   ![Commit activity](https://img.shields.io/github/commit-activity/m/0l1ve1r4/Anonify)
   ![GitHub top language](https://img.shields.io/github/languages/top/0l1ve1r4/Anonify?logo=java&label=)
-  [![GitHub license](https://img.shields.io/github/license/0l1ve1r4/Anonify)](https://github.com/0l1ve1r4/Anonify/LICENSE)
+  ![GitHub License](https://img.shields.io/github/license/0l1ve1r4/Anonify)
+
+
 </div>
 
 A secure and anonymous chat platform designed for private one-to-one communication. with a focus on privacy, AnoNify routes all communications via the Tor network.
