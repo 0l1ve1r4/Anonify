@@ -12,8 +12,27 @@ public class ChatPanel {
     private int messageIndex = 0;
 
     public ChatPanel() {
-        chatPanel = new JPanel(new GridBagLayout());
-        
+        chatPanel = new JPanel(new GridBagLayout()) {
+            // Override the paintComponent method to set the background image
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);  
+                ImageIcon backgroundImage = new ImageIcon("src/res/bg_illustation.png"); 
+                Image img = backgroundImage.getImage();
+
+                int imgWidth = (img.getWidth(null)/2);
+                int imgHeight = (img.getHeight(null)/2);
+
+                int newWidth = (int) (imgWidth * 2);
+                int newHeight = (int) (imgHeight * 2);
+
+                int x = (getWidth() - newWidth) / 2;
+                int y = (getHeight() - newHeight) / 2;
+
+                g.drawImage(img, x, y, newWidth, newHeight, this);
+            }
+        };
+
         chatPanel.setBackground(Constants.DARK_GRAY);
         chatPanel.setForeground(Constants.DARK_GRAY);
 
@@ -78,10 +97,11 @@ public class ChatPanel {
     }
 
     void showHelp() {
-        addMessage("What is AnoNify?", "YOU");
-        addMessage("AnoNify is an open-source, onion-secured platform for one-to-one communication.", "BOT");
+        addMessage("What is Anonify?", "YOU");
+        addMessage("Anonify is a quick chat application that works exclusively over the Tor network, connecting clients to a .onion address.", "BOT");
         addMessage("How do I use it?", "YOU");
-        addMessage("Provide your RSA private key and your peer's RSA public key.", "BOT");
-        addMessage("For Tor users: PGP keys can be used as long as the key is RSA.", "BOT");
+        addMessage("To use Anonify, you must have Tor configured. This can be done by running the setup script located at scripts/tor.", "BOT");
+        addMessage("Once configured, provide your RSA private key and your peer's RSA public key to establish a secure connection.", "BOT");
     }
+    
 }
