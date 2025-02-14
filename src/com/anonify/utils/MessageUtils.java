@@ -1,15 +1,15 @@
 package com.anonify.utils;
 
+import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
 
 public class MessageUtils {
     public static JPanel createMessagePanel(String message, String sender) {
         // Container panel for alignment
         JPanel containerPanel = new JPanel();
         containerPanel.setLayout(new BoxLayout(containerPanel, BoxLayout.X_AXIS));
-        containerPanel.setBackground(Constants.DARK_GRAY);
+        containerPanel.setOpaque(false); // <--- Torna transparente
         containerPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
 
         // Inner message panel
