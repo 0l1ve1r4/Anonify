@@ -8,8 +8,6 @@ import com.anonify.ui.panels.ConnectOnionPanel;
 import com.anonify.ui.panels.ConfigureOnionPanel;
 import com.anonify.ui.panels.SettingsPanel;
 import com.anonify.utils.Constants;
-import java.net.URL;
-
 
 public class TabManager {
     private final JTabbedPane tabbedPane;

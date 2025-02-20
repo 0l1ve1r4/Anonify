@@ -34,7 +34,9 @@ public class Services {
         }
     }
     
-
+    public String getOnionAddress(){
+        return TorServerService.getAddress();
+    }
 
     public void sendMessageToServer(String message){
         TorClientService.sendMessage(message, "Anon");
